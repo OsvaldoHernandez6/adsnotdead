@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ads.Not.Dead — Marketing Digital On Demand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       VARIABLES & RESET
+    ============================================= */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --bg:           #F5F2EC;
+      --bg-soft:      #EDEAE2;
+      --bg-card:      #FFFFFF;
+      --bg-card-hover:#F9F7F3;
+      --accent:       #F5C841;
+      --accent-dark:  #C99D1A;
+      --accent-dim:   rgba(245,200,65,0.14);
+      --accent-border:rgba(201,157,26,0.25);
+      --text:         #1A1A18;
+      --text-muted:   #6B6860;
+      --text-dim:     #B0ADA6;
+      --border:       rgba(0,0,0,0.07);
+      --border-med:   rgba(0,0,0,0.12);
+      --shadow:       0 1px 3px rgba(0,0,0,0.05), 0 4px 14px rgba(0,0,0,0.04);
+      --font-d: 'Syne', sans-serif;
+      --font-b: 'DM Sans', sans-serif;
+      --r:  12px;
+      --rl: 18px;
+      --t:  0.24s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior:smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-weight: 300;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    ::selection { background:var(--accent); color:#111; }
+
+    h1,h2,h3 {
+      font-family: var(--font-d);
+      font-weight: 700;
+      line-height: 1.07;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    h1 { font-size: clamp(2.6rem, 5.5vw, 5rem); }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.9rem); }
+    h3 { font-size: 0.98rem; font-weight: 600; }
+
+    p {
+      font-size: clamp(0.875rem, 1.05vw, 0.96rem);
+      color: var(--text-muted);
+      line-height: 1.78;
+    }
+
+    a { color:inherit; text-decoration:none; }
+
+    .container { max-width:1100px; margin:0 auto; padding:0 clamp(1.25rem,5vw,3rem); }
+    .section   { padding: clamp(5rem,9vw,8rem) 0; }
+
+    .label {
+      display: inline-block;
+      font-family: var(--font-b);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+    }
+
+    .hl { color: var(--accent-dark); }
+
+    /* =============================================
+       NAV
+    ============================================= */
+    nav {
+      position: fixed;
+      top:0; left:0; right:0; z-index:200;
+      padding: 1.1rem clamp(1.25rem,5vw,3rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(245,242,236,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--t);
+    }
+    nav.scrolled { background: rgba(245,242,236,0.97); }
+
+    .nav-logo {
+      font-family: var(--font-d);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      z-index:201;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-right { display:flex; align-items:center; gap:1rem; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-b);
+      font-size: 0.83rem;
+      font-weight: 500;
+      padding: 0.48rem 1.1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-med);
+      color: var(--text);
+      transition: all var(--t);
+    }
+    .nav-cta:hover { background:var(--accent-dim); border-color:var(--accent-border); color:var(--accent-dark); }
+
+    /* Hamburger */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px; height: 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-med);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0 8px;
+      z-index:201;
+      transition: background var(--t);
+    }
+    .hamburger:hover { background:var(--bg-soft); }
+    .hamburger span {
+      display:block; height:1.5px;
+      background:var(--text); border-radius:2px;
+      transition: all 0.3s ease;
+      transform-origin:center;
+    }
+    .hamburger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+    /* Drawer */
+    .nav-drawer {
+      position:fixed; top:0; left:0; right:0; z-index:199;
+      background: var(--bg);
+      padding: 5.5rem clamp(1.25rem,5vw,3rem) 3rem;
+      border-bottom: 1px solid var(--border-med);
+      display:flex; flex-direction:column;
+      transform:translateY(-100%);
+      transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+    }
+    .nav-drawer.open { transform:translateY(0); }
+    .nav-drawer a {
+      font-family: var(--font-d);
+      font-size: 1.3rem; font-weight:700;
+      letter-spacing:-0.02em; color:var(--text);
+      padding:0.85rem 0; border-bottom:1px solid var(--border);
+      transition:color var(--t);
+    }
+    .nav-drawer a:last-child { border-bottom:none; }
+    .nav-drawer a:hover { color:var(--accent); }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    #hero {
+      min-height: 100vh;
+      display:flex; flex-direction:column; justify-content:center;
+      padding-top:80px;
+      position:relative; overflow:hidden;
+    }
+
+    /* Ambient glow — no grid */
+    #hero::after {
+      content:''; position:absolute;
+      top:-15%; right:-8%;
+      width:60vw; height:75vh;
+      background:radial-gradient(ellipse at 65% 35%, rgba(245,200,65,0.13) 0%, transparent 55%);
+      pointer-events:none;
+    }
+
+    .hero-inner { position:relative; z-index:1; max-width:860px; }
+
+    #hero h1 { opacity:0; animation:fadeUp 0.85s 0.1s forwards; margin-bottom:1.4rem; }
+
+    .hero-sub {
+      font-size: clamp(1rem,1.5vw,1.1rem);
+      color:var(--text-muted); max-width:520px;
+      line-height:1.72; margin-bottom:2.5rem;
+      opacity:0; animation:fadeUp 0.85s 0.28s forwards;
+    }
+
+    .hero-actions {
+      display:flex; gap:0.85rem; flex-wrap:wrap;
+      opacity:0; animation:fadeUp 0.85s 0.44s forwards;
+    }
+
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:0.45rem;
+      padding:0.85rem 1.75rem;
+      background:var(--text); color:var(--bg);
+      font-family:var(--font-b); font-size:0.9rem; font-weight:600;
+      border-radius:var(--r); border:none; cursor:pointer;
+      transition:all var(--t); letter-spacing:-0.01em;
+    }
+    .btn-primary:hover { background:#2d2d2a; transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,0,0,0.14); }
+
+    .btn-secondary {
+      display:inline-flex; align-items:center; gap:0.45rem;
+      padding:0.85rem 1.75rem;
+      background:transparent; color:var(--text-muted);
+      font-family:var(--font-b); font-size:0.9rem; font-weight:400;
+      border-radius:var(--r); border:1px solid var(--border-med);
+      cursor:pointer; transition:all var(--t);
+    }
+    .btn-secondary:hover { border-color:rgba(0,0,0,0.2); color:var(--text); background:var(--bg-soft); }
+
+    .hero-scroll {
+      position:absolute; bottom:2.5rem; left:0;
+      display:flex; align-items:center; gap:0.7rem;
+      font-size:0.68rem; color:var(--text-dim);
+      letter-spacing:0.14em; text-transform:uppercase;
+      opacity:0; animation:fadeUp 0.8s 0.9s forwards;
+    }
+    .scroll-line { width:34px; height:1px; background:var(--text-dim); }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* =============================================
+       SECTION BG ALTERNATING
+    ============================================= */
+    .bg-soft {
+      background:var(--bg-soft);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+    }
+
+    /* =============================================
+       EL MODELO
+    ============================================= */
+    .modelo-grid {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:5rem; align-items:start;
+    }
+
+    .modelo-left h2 { margin-bottom:1rem; }
+    .modelo-left p  { margin-bottom:1.1rem; line-height:1.8; }
+
+    .obsolete-list { list-style:none; display:flex; flex-direction:column; gap:0.45rem; }
+    .obsolete-list li {
+      display:flex; align-items:center; gap:0.65rem;
+      font-size:0.86rem; color:var(--text-muted);
+      padding:0.65rem 1rem; border:1px solid var(--border);
+      border-radius:8px; background:var(--bg-card);
+      transition:all var(--t);
+    }
+    .obsolete-list li:hover { color:var(--text); border-color:var(--border-med); }
+    .strike-icon { color:var(--text-dim); font-size:0.68rem; flex-shrink:0; }
+
+    /* =============================================
+       LA CREW
+    ============================================= */
+    .crew-header { margin-bottom:3rem; max-width:600px; }
+    .crew-header h2 { margin-bottom:0.9rem; }
+
+    .crew-blocks { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+
+    .crew-block {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--rl); padding:1.85rem 1.65rem;
+      transition:all var(--t);
+    }
+    .crew-block:hover { transform:translateY(-3px); border-color:var(--border-med); background:var(--bg-card-hover); }
+    .crew-block .cb-icon { font-size:1.3rem; margin-bottom:0.9rem; display:block; }
+    .crew-block h3 { font-size:0.95rem; margin-bottom:0.5rem; }
+    .crew-block p  { font-size:0.84rem; }
+
+    /* =============================================
+       SERVICIOS — 8 cards equal 2x4
+    ============================================= */
+    .hab-header { margin-bottom:3rem; }
+
+    .hab-grid {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:1rem;
+    }
+
+    /* On md screens → 2 cols */
+    @media (max-width:1050px) {
+      .hab-grid { grid-template-columns:repeat(2,1fr); }
+    }
+
+    .hab-card {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--rl); padding:1.85rem 1.65rem;
+      display:flex; flex-direction:column;
+      position:relative; overflow:hidden;
+      transition:all 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Accent top line */
+    .hab-card::before {
+      content:''; position:absolute;
+      top:0; left:0; right:0; height:2px;
+      background:var(--accent);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform 0.38s ease;
+    }
+    .hab-card:hover::before { transform:scaleX(1); }
+    .hab-card:hover { border-color:var(--border-med); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.5); background:var(--bg-card-hover); }
+
+    /* Featured dark→accent tint */
+    .hab-card.featured {
+      background:var(--bg-card);
+      border-color:var(--accent-border);
+    }
+    .hab-card.featured::before { transform:scaleX(1); }
+
+    .hab-card .hab-icon { font-size:1.3rem; margin-bottom:0.9rem; display:block; }
+    .hab-card h3 { font-size:0.95rem; margin-bottom:0.5rem; }
+    .hab-card p  { font-size:0.82rem; line-height:1.72; flex:1; }
+
+    /* WA mini-btn */
+    .btn-wa {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      margin-top:1.1rem; padding:0.44rem 0.9rem;
+      font-family:var(--font-b); font-size:0.76rem; font-weight:500;
+      border-radius:7px; border:1px solid var(--border-med);
+      color:var(--text-muted); background:transparent;
+      transition:all var(--t); align-self:flex-start; white-space:nowrap;
+    }
+    .btn-wa:hover { background:#25D366; color:white; border-color:transparent; }
+    .btn-wa svg  { width:12px; height:12px; fill:currentColor; flex-shrink:0; }
+
+    /* =============================================
+       PROCESO
+    ============================================= */
+    .proceso-header { margin-bottom:3rem; }
+
+    .steps { display:flex; flex-direction:column; position:relative; }
+    .steps::before {
+      content:''; position:absolute;
+      left:19px; top:28px; bottom:28px;
+      width:1px; background:var(--border-med);
+    }
+
+    .step {
+      display:flex; gap:2rem; align-items:flex-start;
+      padding:1.6rem 0; border-bottom:1px solid var(--border);
+      transition:all var(--t);
+    }
+    .step:last-child { border-bottom:none; }
+    .step:hover .step-num { background:var(--accent); color:#111; border-color:var(--accent-dark); }
+
+    .step-num {
+      flex-shrink:0; width:38px; height:38px;
+      border-radius:50%; border:1px solid var(--border-med);
+      background:var(--bg-card);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-d); font-size:0.78rem; font-weight:700;
+      color:var(--text-muted); transition:all var(--t);
+      z-index:1; position:relative;
+    }
+    .step-content h3 { font-size:0.94rem; margin-bottom:0.26rem; }
+    .step-content p  { font-size:0.84rem; }
+
+    .step-wa {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      margin-top:0.5rem; font-size:0.77rem; font-weight:500;
+      color:#25D366; transition:opacity var(--t);
+    }
+    .step-wa:hover { opacity:0.7; }
+    .step-wa svg { width:13px; height:13px; fill:#25D366; }
+
+    /* =============================================
+       CONTACTO
+    ============================================= */
+    .contact-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:5rem; align-items:start; }
+    .contact-left h2 { margin-bottom:1rem; }
+    .contact-left p  { line-height:1.8; margin-bottom:2rem; }
+
+    .contact-info { display:flex; flex-direction:column; gap:0.65rem; }
+    .contact-item { display:flex; align-items:center; gap:0.7rem; font-size:0.84rem; color:var(--text-muted); }
+    .contact-item-icon {
+      width:30px; height:30px; border-radius:8px;
+      background:var(--bg-card); border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.8rem; flex-shrink:0;
+    }
+
+    .contact-form {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--rl); padding:2.25rem;
+    }
+    .form-group { margin-bottom:1.05rem; }
+    .form-group label {
+      display:block; font-size:0.7rem; font-weight:500;
+      color:var(--text-muted); margin-bottom:0.4rem;
+      letter-spacing:0.07em; text-transform:uppercase;
+    }
+    .form-group input,
+    .form-group textarea {
+      width:100%; background:var(--bg-soft);
+      border:1px solid var(--border); border-radius:var(--r);
+      padding:0.76rem 1rem; font-family:var(--font-b); font-size:0.88rem;
+      color:var(--text); transition:all var(--t); outline:none; resize:vertical;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color:var(--accent-border);
+      box-shadow:0 0 0 3px rgba(245,200,65,0.07);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color:var(--text-dim); }
+    .form-group textarea { min-height:110px; }
+
+    .form-submit {
+      width:100%; padding:0.86rem;
+      background:var(--text); color:var(--bg);
+      font-family:var(--font-b); font-size:0.9rem; font-weight:600;
+      border:none; border-radius:var(--r); cursor:pointer;
+      transition:all var(--t);
+    }
+    .form-submit:hover { background:#2d2d2a; transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer { border-top:1px solid var(--border); padding:2.5rem 0; }
+    .footer-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    .footer-logo  { font-family:var(--font-d); font-size:0.95rem; font-weight:800; letter-spacing:-0.02em; }
+    .footer-logo span { color:var(--accent); }
+    .footer-copy  { font-size:0.74rem; color:var(--text-dim); }
+
+    /* =============================================
+       WA FLOAT
+    ============================================= */
+    .wa-float {
+      position:fixed; bottom:1.75rem; right:1.75rem; z-index:300;
+      width:50px; height:50px; border-radius:50%;
+      background:#25D366;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 20px rgba(37,211,102,0.35);
+      transition:all var(--t);
+    }
+    .wa-float:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(37,211,102,0.5); }
+    .wa-float svg { width:25px; height:25px; fill:white; }
+
+    /* =============================================
+       REVEAL ANIMATION
+    ============================================= */
+    .reveal {
+      opacity:0; transform:translateY(20px);
+      transition:opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .d1 { transition-delay:0.08s; }
+    .d2 { transition-delay:0.16s; }
+    .d3 { transition-delay:0.24s; }
+    .d4 { transition-delay:0.32s; }
+    .d5 { transition-delay:0.40s; }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width:900px) {
+      .modelo-grid,
+      .contact-grid { grid-template-columns:1fr; gap:3rem; }
+      .crew-blocks  { grid-template-columns:1fr; }
+      .hab-grid     { grid-template-columns:repeat(2,1fr); }
+      .nav-cta      { display:none; }
+    }
+    @media (max-width:560px) {
+      .hero-actions   { flex-direction:column; }
+      .btn-primary,
+      .btn-secondary  { justify-content:center; }
+      .hab-grid       { grid-template-columns:1fr; }
+      .footer-inner   { flex-direction:column; align-items:flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav id="main-nav">
+    <div class="nav-logo">Ads<span>.</span>Not<span>.</span>Dead</div>
+    <div class="nav-right">
+      <a href="#contacto" class="nav-cta">Hablemos →</a>
+      <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav-drawer" id="nav-drawer">
+    <a href="#modelo"      onclick="closeDrawer()">El Modelo</a>
+    <a href="#crew"        onclick="closeDrawer()">El Equipo</a>
+    <a href="#habilidades" onclick="closeDrawer()">Servicios</a>
+    <a href="#proceso"     onclick="closeDrawer()">Cómo funciona</a>
+    <a href="#contacto"    onclick="closeDrawer()">Contacto</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-inner">
+
+        <h1>Servicios de Marketing Digital,<br><span class="hl">On Demand.</span></h1>
+
+        <p class="hero-sub">
+          Somos un equipo de especialistas en marketing digital, on demand.
+          Sin contratos. 100% personalizado.
+        </p>
+
+        <div class="hero-actions">
+          <a href="https://wa.me/5695179298" class="btn-primary" target="_blank" rel="noopener">
+            Agenda tu reunión →
+          </a>
+          <a href="#modelo" class="btn-secondary">Cómo trabajamos</a>
+        </div>
+
+      </div>
+      <div class="hero-scroll">
+        <span class="scroll-line"></span>Scroll
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EL MODELO ===== -->
+  <section id="modelo" class="section bg-soft">
+    <div class="container">
+      <div class="modelo-grid">
+
+        <div class="modelo-left reveal">
+          <span class="label">El modelo</span>
+          <h2>Sin el modelo<br>de una agencia.</h2>
+          <p>Porque el mercado no está actualizando su modelo de negocio a los tiempos actuales. La industria necesita una cultura ágil, entender códigos, formas, lenguajes, formatos.</p>
+          <p>Pensar como creador, no como agencia. 💡</p>
+        </div>
+
+        <div class="reveal d2">
+          <span class="label" style="display:block;margin-bottom:1rem;">Esto lo dejamos atrás 👀</span>
+          <ul class="obsolete-list">
+            <li><span class="strike-icon">✕</span> Usar trends porque el resto lo hace</li>
+            <li><span class="strike-icon">✕</span> Cobrar por cantidad de publicaciones</li>
+            <li><span class="strike-icon">✕</span> Avanzar sin estrategia digital</li>
+            <li><span class="strike-icon">✕</span> Fandom vs comunidad real</li>
+            <li><span class="strike-icon">✕</span> Modelos de atribución sin claridad</li>
+            <li><span class="strike-icon">✕</span> Reuniones que terminan en nada</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LA CREW ===== -->
+  <section id="crew" class="section">
+    <div class="container">
+
+      <div class="crew-header reveal">
+        <span class="label">El equipo</span>
+        <h2>La <span class="hl">Crew</span></h2>
+        <p>Somos un grupo de marketeros, creativos, creadores y mentes que trabajan de forma remota. Trabajamos de forma ágil, inteligente, sin perder el tiempo.</p>
+      </div>
+
+      <div class="crew-blocks">
+        <div class="crew-block reveal d1">
+          <span class="cb-icon">⚡</span>
+          <h3>Ágil por naturaleza</h3>
+          <p>La Crew no pierde tiempo. Tiempos reales: ni nos demoramos, ni improvisamos. La agilidad es parte del modelo.</p>
+        </div>
+        <div class="crew-block reveal d2">
+          <span class="cb-icon">🎯</span>
+          <h3>Senior, sin egos</h3>
+          <p>Equipo independiente, responsable, senior. Sin las mañas de una agencia. Más ejecutivo, más creativo.</p>
+        </div>
+        <div class="crew-block reveal d3">
+          <span class="cb-icon">🌐</span>
+          <h3>100% remoto</h3>
+          <p>Trabajamos de forma distribuida. Eso nos hace flexibles, rápidos y adaptables a cualquier mercado.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SERVICIOS — 8 cards equal grid ===== -->
+  <section id="habilidades" class="section bg-soft">
+    <div class="container">
+
+      <div class="hab-header reveal">
+        <span class="label">Servicios</span>
+        <h2>Lo que hacemos<br><span class="hl">bien</span>.</h2>
+      </div>
+
+      <!-- WA svg inline snippet -->
+      <div class="hab-grid">
+
+        <!-- 1 -->
+        <div class="hab-card featured reveal d1">
+          <span class="hab-icon">📡</span>
+          <h3>Traffikers</h3>
+          <p>Campañas pagadas en Meta, Pinterest y TikTok. 100% transparente. Google también si la estrategia lo requiere.</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+        <!-- 2 -->
+        <div class="hab-card reveal d2">
+          <span class="hab-icon">🛒</span>
+          <h3>Anuncios E-commerce</h3>
+          <p>Creamos anuncios para tu e-commerce utilizando plataformas de IA para producir de forma ágil, según los objetivos.</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+        <!-- 3 -->
+        <div class="hab-card reveal d3">
+          <span class="hab-icon">✍️</span>
+          <h3>Contenido</h3>
+          <p>No hacemos la clásica grilla de 10 publicaciones. Hacemos contenido que sea parte de internet. Con códigos digitales y lenguaje real.</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+        <!-- 4 -->
+        <div class="hab-card reveal d4">
+          <span class="hab-icon">🗺️</span>
+          <h3>Estrategia</h3>
+          <p>Creamos tu marca en internet. Proyecto 100% a medida para que puedas seguir ejecutando. Solo pedimos una conversación transparente.</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+        <!-- 5 -->
+        <div class="hab-card reveal d1">
+          <span class="hab-icon">📊</span>
+          <h3>Reportes</h3>
+          <p>Las métricas son las dueñas del negocio. ¿Cuántos clics llevan tus stories al website y se convierten en venta? Existe tanto dato bueno. 🔥</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+        <!-- 6 -->
+        <div class="hab-card reveal d2">
+          <span class="hab-icon">🎨</span>
+          <h3>Campaña Creativa</h3>
+          <p>Dos caminos creativos para tu campaña, bajados a todos los soportes. Usamos Creative AI platforms para producción a gran escala.</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+        <!-- 7 -->
+        <div class="hab-card reveal d3">
+          <span class="hab-icon">🖼️</span>
+          <h3>Key Visual</h3>
+          <p>Definimos el lenguaje visual de tu marca o campaña. El visual principal que ancla toda la comunicación y garantiza coherencia.</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+        <!-- 8 -->
+        <div class="hab-card reveal d4">
+          <span class="hab-icon">🛠️</span>
+          <h3>Otros servicios</h3>
+          <p><strong style="color:var(--text);font-weight:500;">Websites y landing pages</strong> con Claude, Codex u otros agentes de código.<br><strong style="color:var(--text);font-weight:500;">Podcast y VideoCast</strong> con partners especializados.</p>
+          <a href="https://wa.me/5695179298" class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotiza
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESO ===== -->
+  <section id="proceso" class="section">
+    <div class="container">
+      <div class="proceso-header reveal">
+        <span class="label">Proceso</span>
+        <h2>¿Cómo funciona?</h2>
+      </div>
+
+      <div class="steps">
+
+        <div class="step reveal d1">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Nos reunimos en un meet de 30 minutos 🤘</h3>
+            <p>De esa reunión completamos un Brief con datos claves y armamos un proyecto.</p>
+            <a href="https://wa.me/5695179298" class="step-wa" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Escríbenos por WhatsApp para agendar
+            </a>
+          </div>
+        </div>
+
+        <div class="step reveal d2">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Te enviamos un presupuesto a detalle</h3>
+            <p>Con todo: alcances, tiempos y formas de pago. Transparente, sin letra chica.</p>
+          </div>
+        </div>
+
+        <div class="step reveal d3">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Comenzamos a ejecutar 🔥</h3>
+            <p>Si aceptas, nos ponemos en marcha. Si algo te incomoda del presupuesto, lo ajustamos.</p>
+          </div>
+        </div>
+
+        <div class="step reveal d4">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h3>Reuniones semanal / quincenal 💻</h3>
+            <p>Para ver resultados juntos y tomar decisiones con data real. 📊</p>
+          </div>
+        </div>
+
+        <div class="step reveal d5">
+          <div class="step-num">05</div>
+          <div class="step-content">
+            <h3>Soporte 100% vía WhatsApp 📱</h3>
+            <p>En horario hábil de semana. Sin bots, sin tickets, sin esperas.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto" class="section bg-soft">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="contact-left reveal">
+          <span class="label">Contacto</span>
+          <h2>¿Hablamos?</h2>
+          <p>30 minutos. Una charla directa. Sin presentaciones de 40 slides. Solo entender tu negocio y ver cómo podemos ayudar.</p>
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-item-icon">💬</span>
+              WhatsApp disponible en horario hábil
+            </div>
+            <div class="contact-item">
+              <span class="contact-item-icon">📍</span>
+              Equipo remoto · Clientes en toda Latinoamérica
+            </div>
+            <div class="contact-item">
+              <span class="contact-item-icon">⚡</span>
+              Respuesta en menos de 24 horas
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal d2">
+          <form class="contact-form"
+            action="https://formspree.io/f/Osvaldo.hernandez.o@gmail.com"
+            method="POST">
+            <input type="hidden" name="_next" value="/gracias.html" />
+            <input type="hidden" name="_subject" value="Nuevo contacto desde Ads.Not.Dead" />
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="mensaje">¿En qué te ayudamos?</label>
+              <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos sobre tu negocio y qué necesitas..." required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Enviar mensaje →</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">Ads<span>.</span>Not<span>.</span>Dead</div>
+        <div class="footer-copy">© 2025 Ads.Not.Dead — Marketing digital, on demand.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== WA FLOAT ===== -->
+  <a href="https://wa.me/5695179298" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ===== JS ===== -->
+  <script>
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const drawer    = document.getElementById('nav-drawer');
+
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('open');
+      drawer.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    function closeDrawer() {
+      hamburger.classList.remove('open');
+      drawer.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', e => {
+      if (drawer.classList.contains('open') && !drawer.contains(e.target) && !hamburger.contains(e.target)) closeDrawer();
+    });
+
+    // Nav scroll
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50), { passive:true });
+
+    // Reveal
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold:0.1, rootMargin:'0px 0px -36px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
