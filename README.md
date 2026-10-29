@@ -1,6 +1,12 @@
 # Ads.Not.Dead — sitio estático
 
-`index.html` es autocontenido (sin build). Súbelo a un repo de GitHub tal cual.
+`index.html` es HTML estático real (sin build ni bundler): el contenido, el `<title>`, las meta y las etiquetas Open Graph están en el HTML, así que Google y las vistas previas de WhatsApp/LinkedIn lo leen sin JavaScript.
+
+- `og-image.png` — vista previa al compartir (1200×630)
+- `robots.txt`, `sitemap.xml` — para buscadores (enviar el sitemap en Search Console)
+- `assets/` — logo, íconos y fuentes self-hosted
+
+Para editar textos, cambia `index.html` directamente.
 
 ## Envío del formulario de contacto
 
